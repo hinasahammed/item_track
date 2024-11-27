@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:item_track/view/addProduct/add_product_view.dart';
 import 'package:item_track/view/home/widget/stock_card.dart';
+import 'package:item_track/view/uploadExcel/upload_excel.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -52,6 +53,19 @@ class HomeView extends StatelessWidget {
                     },
                     imageUrl: "assets/images/view_product.png",
                     title: "View Product",
+                  ),
+                ),
+                Expanded(
+                  child: StockCard(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const UploadExcel()),
+                      );
+                    },
+                    imageUrl: "assets/images/view_product.png",
+                    title: "Upload Excel",
                   ),
                 )
               ],
