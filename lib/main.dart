@@ -1,17 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
-import 'package:item_track/model/product.dart';
-import 'package:item_track/model/shelf.dart';
 import 'package:item_track/view/login/login_view.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  Hive.registerAdapter(ProductAdapter()); 
-  Hive.registerAdapter(ShelfAdapter());
-
-   await Hive.openBox<Product>('products');
-  await Hive.openBox<Shelf>('shelves');
+void main() {
   runApp(const MyApp());
 }
 

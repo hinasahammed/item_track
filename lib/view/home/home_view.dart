@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:item_track/model/productModel/product_model.dart';
 import 'package:item_track/view/addProduct/add_product_view.dart';
+import 'package:item_track/view/allProdcutView/all_product_view.dart';
+import 'package:item_track/view/home/widget/product_card.dart';
 import 'package:item_track/view/home/widget/stock_card.dart';
 import 'package:item_track/view/uploadExcel/upload_excel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -31,12 +40,15 @@ class HomeView extends StatelessWidget {
               children: [
                 Expanded(
                   child: StockCard(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const AddProductView()),
                       );
+                      if (result == true) {
+                        setState(() {});
+                      }
                     },
                     imageUrl: "assets/images/add_product.png",
                     title: "Add Product",
@@ -44,12 +56,15 @@ class HomeView extends StatelessWidget {
                 ),
                 Expanded(
                   child: StockCard(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) => const AddProductView()),
-                      // );
+                    onTap: () async{
+                      final result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AllProductView()),
+                      );
+                      if (result == true) {
+                        setState(() {});
+                      }
                     },
                     imageUrl: "assets/images/view_product.png",
                     title: "View Product",
@@ -57,12 +72,15 @@ class HomeView extends StatelessWidget {
                 ),
                 Expanded(
                   child: StockCard(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      final result = await Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => const UploadExcel()),
                       );
+                      if (result == true) {
+                        setState(() {});
+                      }
                     },
                     imageUrl: "assets/images/view_product.png",
                     title: "Upload Excel",
@@ -81,61 +99,53 @@ class HomeView extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                Text(
-                  "See all",
-                  style: theme.textTheme.labelLarge!.copyWith(
-                    color: theme.colorScheme.primary,
-                    fontWeight: FontWeight.w600,
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AllProductView(),
+                        ));
+                  },
+                  child: Text(
+                    "See all",
+                    style: theme.textTheme.labelLarge!.copyWith(
+                      color: theme.colorScheme.primary,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
+                )
               ],
             ),
             const Gap(20),
-            Card(
-              clipBehavior: Clip.hardEdge,
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(8),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.production_quantity_limits,
-                      size: 30,
-                    ),
-                    const Gap(20),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Name",
-                          style: theme.textTheme.bodyLarge!.copyWith(
-                            color: theme.colorScheme.onSurface,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          "Quantity",
-                          style: theme.textTheme.bodyLarge!.copyWith(
-                            color: theme.colorScheme.onSurface,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Text(
-                          "Price/Product",
-                          style: theme.textTheme.bodyLarge!.copyWith(
-                            color: theme.colorScheme.onSurface,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+            FutureBuilder(
+              future: fetchProduct(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                }
+                if (snapshot.data == null ||
+                    !snapshot.hasData ||
+                    snapshot.data!.isEmpty) {
+                  return const Center(
+                    child: Text("No products found!"),
+                  );
+                } else {
+                  return ProductCard(productList: snapshot.data!);
+                }
+              },
             )
           ],
         ),
       ),
     );
+  }
+
+  Future<List<ProductModel>> fetchProduct() async {
+    List<ProductModel> allProducts = [];
+    final pref = await SharedPreferences.getInstance();
+    var list = pref.getStringList("testing_product") ?? [];
+    allProducts = list.map((e) => ProductModel.fromJson(e)).toList();
+    return allProducts;
   }
 }
