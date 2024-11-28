@@ -10,18 +10,16 @@ import 'package:item_track/model/productModel/product_model.dart';
 const productkeyTesting = "testing_product";
 
 class BarcodeScannerService {
-  // Function to scan the barcode and return the scanned value
   Future<String?> scanBarcode(BuildContext context) async {
     try {
       var scanResult = await BarcodeScanner.scan();
-      return scanResult.rawContent; // Returns the scanned barcode string
+      return scanResult.rawContent; 
     } catch (e) {
       log("Error scanning barcode: $e");
       return null;
     }
   }
 
-  // Function to add or update product based on scanned barcode
   Future<void> addProduct(BuildContext context, String barcode) async {
     const productkeyTesting = "testing_product";
     const reportedkeytest = "report_pro1";

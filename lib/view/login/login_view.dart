@@ -5,7 +5,7 @@ import 'package:item_track/res/components/common/custom_textformfield.dart';
 import 'package:item_track/res/utils/employee_credentials.dart';
 import 'package:item_track/view/bottomNavigation/custom_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fluttertoast/fluttertoast.dart'; // for Toast
+import 'package:fluttertoast/fluttertoast.dart'; 
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -23,9 +23,7 @@ class _LoginViewState extends State<LoginView> {
     super.initState();
   }
 
-  // Function to validate and check employee credentials
   void validateAndLogin(BuildContext context) async {
-    // Validate if fields are not empty
     if (employeeId.text.isEmpty || password.text.isEmpty) {
       Fluttertoast.showToast(
         msg: "Please fill in both fields.",
@@ -35,7 +33,6 @@ class _LoginViewState extends State<LoginView> {
       return;
     }
 
-    // Check if the employeeId and password match any employee
     bool isValid = false;
     for (var employee in employees) {
       if (employee.employeeId == employeeId.text &&
@@ -46,18 +43,15 @@ class _LoginViewState extends State<LoginView> {
     }
 
     if (isValid) {
-      // Show success Toast
       Fluttertoast.showToast(
         msg: "Login Successful!",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
       );
 
-      // Store user data in SharedPreferences (optional)
       final pref = await SharedPreferences.getInstance();
       pref.setString('employeeId', employeeId.text);
 
-      // Navigate to the next screen
       if (context.mounted) {
         Navigator.pushReplacement(
           context,
@@ -66,7 +60,6 @@ class _LoginViewState extends State<LoginView> {
         );
       }
     } else {
-      // Show error Toast
       Fluttertoast.showToast(
         msg: "Invalid Employee ID or Password!",
         toastLength: Toast.LENGTH_SHORT,

@@ -4,7 +4,7 @@ import 'package:item_track/view/allProdcutView/all_product_view.dart';
 import 'package:item_track/view/dashboard/widgets/reported_product_view.dart';
 import 'package:item_track/view/dashboard/widgets/shelf_view.dart';
 import 'package:item_track/view/login/login_view.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // to manage shared preferences
+import 'package:shared_preferences/shared_preferences.dart'; 
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});
@@ -60,7 +60,6 @@ class DashboardView extends StatelessWidget {
               Icons.logout,
               "Logout",
               () {
-                // Call the function to show logout confirmation dialog
                 showLogoutDialog(context);
               },
             ),
@@ -71,7 +70,6 @@ class DashboardView extends StatelessWidget {
     );
   }
 
-  // Function to show the logout confirmation dialog
   void showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -82,24 +80,22 @@ class DashboardView extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();  
               },
               child: const Text("Cancel"),
             ),
             TextButton(
               onPressed: () async {
-                // Log out and clear user data from shared preferences
                 final pref = await SharedPreferences.getInstance();
                 pref.remove(
-                    'employeeId'); // Clear stored employeeId or other session data
+                    'employeeId');
 
-                // Navigate to the login screen and remove all previous routes from the stack
                 if (context.mounted) {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(builder: (context) => const LoginView()),
                     (route) =>
-                        false, // Remove all routes until the login screen
+                        false,
                   );
                 }
               },
@@ -112,7 +108,6 @@ class DashboardView extends StatelessWidget {
   }
 }
 
-// Widget for card items
 Widget itemCard(IconData leading, String title, void Function()? onTap) {
   return Card(
     child: ListTile(

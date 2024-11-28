@@ -170,7 +170,6 @@ class _AllProductViewState extends State<AllProductView> {
                               ),
                               child: IconButton(
                                 onPressed: () {
-                                  // Delete product
                                   deleteProduct(product);
                                 },
                                 icon: Icon(
@@ -189,7 +188,6 @@ class _AllProductViewState extends State<AllProductView> {
                               ),
                               child: IconButton(
                                 onPressed: () async {
-                                  // Edit product (navigate to edit screen)
                                   await showDialog(
                                     context: context,
                                     builder: (context) {
@@ -237,7 +235,6 @@ class _AllProductViewState extends State<AllProductView> {
                                               ),
                                               ElevatedButton(
                                                 onPressed: () {
-                                                  // Update the product
                                                   updateProduct(product);
                                                   Navigator.of(context).pop();
                                                 },

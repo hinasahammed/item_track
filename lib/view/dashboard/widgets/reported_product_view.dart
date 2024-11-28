@@ -181,7 +181,7 @@ class _ReportedProductViewState extends State<ReportedProductView> {
     var list = pref.getStringList(reportedkeytest) ?? [];
     list.removeWhere((item) =>
         ProductModel.fromJson(item).id ==
-        product.id); // Assuming 'id' is unique
+        product.id); 
     await pref.setStringList(reportedkeytest, list);
     setState(() {});
   }
@@ -191,7 +191,6 @@ class _ReportedProductViewState extends State<ReportedProductView> {
     final pref = await SharedPreferences.getInstance();
     var list = pref.getStringList(reportedkeytest) ?? [];
 
-    // Update the product data
     for (var i = 0; i < list.length; i++) {
       var currentProduct = ProductModel.fromJson(list[i]);
       if (currentProduct.id == product.id) {
@@ -199,7 +198,6 @@ class _ReportedProductViewState extends State<ReportedProductView> {
         currentProduct.price = newPrice;
         currentProduct.quantity = newQuantity;
 
-        // Save the updated product back to the list
         list[i] = currentProduct.toJson();
         break;
       }

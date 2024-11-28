@@ -135,7 +135,6 @@ class _AddManuallyViewState extends State<AddManuallyView> {
         double.parse(barcodeController.text.trim()).toString());
 
     if (val.isNotEmpty) {
-      // Update quantity in `testing_product`
       var productToUpdate = val.first;
       int currentQuantity = int.tryParse(productToUpdate.quantity ?? '0') ?? 0;
       int addedQuantity = int.tryParse(quantityController.text.trim()) ?? 0;
@@ -147,7 +146,6 @@ class _AddManuallyViewState extends State<AddManuallyView> {
       Fluttertoast.showToast(msg: "Product added successfully!");
       clearFields();
     } else {
-      // Product not found in `testing_product`
       setState(() {
         notFound = true;
       });
@@ -163,7 +161,6 @@ class _AddManuallyViewState extends State<AddManuallyView> {
       log("Containing reported list ${checkItContain.toString()}");
 
       if (checkItContain.isNotEmpty) {
-        // Update quantity in `report_pro1`
         var reportedUpdate = checkItContain.first;
         int currentQuantity = int.tryParse(reportedUpdate.quantity ?? '0') ?? 0;
         int addedQuantity = int.tryParse(quantityController.text.trim()) ?? 0;
@@ -172,7 +169,6 @@ class _AddManuallyViewState extends State<AddManuallyView> {
         await pref.setStringList(
             reportedkeytest, productList.map((e) => e.toJson()).toList());
 
-        // Notify the user about the reported product
         if (context.mounted) {
           await showDialog(
           context: context,
@@ -197,7 +193,6 @@ class _AddManuallyViewState extends State<AddManuallyView> {
           notFound = false;
         });
       } else {
-        // Report new product
         if (nameController.text.trim().isEmpty ||
             priceController.text.trim().isEmpty ||
             shelfController.text.trim().isEmpty) {
@@ -234,7 +229,6 @@ class _AddManuallyViewState extends State<AddManuallyView> {
     }
   }
 
-  /// Clears all input fields
   void clearFields() {
     nameController.clear();
     barcodeController.clear();
